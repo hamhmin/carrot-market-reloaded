@@ -11,6 +11,7 @@ import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/session";
+import { getLoginSession } from "@/lib/login";
 
 // const passwordRegex = PASSWORD_REGEX;
 const checkUsername = (username: string) => !username.includes("potato");
@@ -115,7 +116,7 @@ const formSchema = z
   });
 
 export async function createAccount(prevState: any, formData: FormData) {
-  console.log(cookies());
+  // console.log(cookies());
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
@@ -155,10 +156,6 @@ export async function createAccount(prevState: any, formData: FormData) {
     console.log(user);
     //save the user to db
     // log the user in
-    const cookie = await getSession();
-    cookie.id = user.id;
-    await cookie.save();
-    //redirect "/home"
-    redirect("/profile");
+    return getLoginSession(user);
   }
 }

@@ -21,7 +21,7 @@ export default function Login() {
   //   };
 
   const [state, dispatch] = useFormState(logIn, null);
-  console.log(state);
+  console.log("state", state);
   //   const { pending } = useFormStatus();
   return (
     <div className="flex flex-col gap-10 py-8">

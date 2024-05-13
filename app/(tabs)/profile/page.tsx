@@ -5,7 +5,6 @@ import { DEFAULT_MIN_VERSION } from "tls";
 
 async function getUser() {
   const session = await getSession();
-  console.log("asdasdas", session);
   if (session.id) {
     const user = await db.user.findUnique({
       where: {
@@ -26,7 +25,7 @@ export default async function Profile() {
     await session.destroy();
     redirect("/");
   };
-  console.log(user);
+  console.log("user:", user);
   return (
     <div>
       <h1>welcome to your profile , {user?.username}!</h1>

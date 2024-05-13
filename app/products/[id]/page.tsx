@@ -1,4 +1,3 @@
-"user client";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToWon } from "@/lib/utils";
@@ -6,7 +5,6 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import ProductDelete from "./utils";
 
 async function getIsOwner(userId: number) {
   const session = await getSession();
@@ -49,9 +47,17 @@ export default async function ProductDetail({
   }
   const isOwner = await getIsOwner(product.userId);
   //   console.log(product);
-
+  const ProductDelete = async () => {
+    "use server";
+    await db.product.delete({
+      where: {
+        id: id,
+      },
+    });
+    return redirect("/products");
+  };
   return (
-    <div>
+    <div className="pb-32">
       <div className="aspect-square relative">
         <Image fill src={product.photo} alt={product.title} />
       </div>
@@ -81,9 +87,11 @@ export default async function ProductDetail({
           {formatToWon(product.price)}원
         </span>
         {isOwner ? (
-          <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold">
-            Delete product
-          </button>
+          <form action={ProductDelete}>
+            <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold">
+              Delete product
+            </button>
+          </form>
         ) : null}
         <Link
           className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold"

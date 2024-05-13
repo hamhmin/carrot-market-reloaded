@@ -1,10 +1,10 @@
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 
-export default async function ProductDelete(product: any) {
+export default async function ProductDelete(userId: number) {
   await db.product.delete({
     where: {
-      id: product.userId,
+      id: userId,
     },
   });
   redirect("/products");

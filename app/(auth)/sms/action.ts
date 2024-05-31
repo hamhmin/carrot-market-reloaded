@@ -58,9 +58,8 @@ export async function smsLogin(prevState: ActionState, formData: FormData) {
   const phone = formData.get("phone");
   const token = formData.get("token");
   if (!prevState.token) {
-    const result = await phoneSchema.safeParseAsync(phone);
+    const result = phoneSchema.safeParse(phone);
     if (!result.success) {
-      console.log("result1", result);
       return {
         token: false,
         error: result.error.flatten(),
@@ -130,13 +129,10 @@ export async function smsLogin(prevState: ActionState, formData: FormData) {
           userId: true,
         },
       });
-      if (token) {
+      if(token){
         return getSMSLoginSession(token);
       }
+      return redirect("/"); 
     }
   }
-  //   console.log(prevState, formData.get("token"));
-  console.log(formData.get("token"));
-  // console.log(tokenSchema.safeParse(formData.get("token")));
-  return;
 }

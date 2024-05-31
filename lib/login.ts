@@ -9,7 +9,7 @@ export async function getLoginSession(user: any) {
   return redirect("/profile");
 }
 
-export async function getSMSLoginSession(token: any) {
+export async function getSMSLoginSession(token:{userId?:number,id?:number}) {
   const session = await getSession();
   session.id = token!.userId;
   await session.save();
